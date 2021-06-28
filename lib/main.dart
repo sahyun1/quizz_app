@@ -17,7 +17,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  var questions = [
+  final questions = const [
     {
       'questionText': 'what\'s your favourite colour?',
       'answers': ['black', 'green', 'yellow']
@@ -39,6 +39,10 @@ class _MyAppState extends State<MyApp> {
     });
 
     print(_questionIndex);
+
+    // if(_questionIndex <questions.length) {
+    //  print('we have more questions')
+    // }
   }
 
   @override
@@ -48,15 +52,17 @@ class _MyAppState extends State<MyApp> {
       appBar: AppBar(
         title: Text('My First App'),
       ),
-      body: Column(
-        children: [
-          Question(questions[_questionIndex]['questionText']),
-          ...(questions[_questionIndex]['answers'] as List<String>)
-              .map((answer) {
-            return Answer(_answerQuestion, answer);
-          }).toList()
-        ],
-      ),
+      body: _questionIndex < questions.length
+          ? Column(
+              children: [
+                Question(questions[_questionIndex]['questionText']),
+                ...(questions[_questionIndex]['answers'] as List<String>)
+                    .map((answer) {
+                  return Answer(_answerQuestion, answer);
+                }).toList()
+              ],
+            )
+          : Center(child: Text('done')),
     ));
   }
 }
